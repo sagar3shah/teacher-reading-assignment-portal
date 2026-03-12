@@ -17,7 +17,8 @@ function App() {
 
     async function loadHealth() {
       try {
-        const response = await fetch('/api/health')
+        const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL ?? '').replace(/\/$/, '')
+        const response = await fetch(`${apiBaseUrl}/api/health`)
 
         if (!response.ok) {
           throw new Error(`Request failed with status ${response.status}`)

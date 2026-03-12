@@ -28,7 +28,6 @@ Frontend runs at: http://localhost:5173
 ### Quick sanity check
 - Backend health endpoint: http://localhost:8080/api/health
 - The frontend calls the backend via a Vite dev proxy (`/api/*` -> `http://localhost:8080`).
-
 ## Current Implemenetation
 
 ## Architectural Decisions/Tradeoffs
