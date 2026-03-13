@@ -10,6 +10,28 @@ export default defineConfig({
         target: 'http://localhost:8080',
         changeOrigin: true,
       },
+      '/login': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+        bypass(req) {
+          const accept = req.headers?.accept ?? ''
+          if (req.method === 'GET' && accept.includes('text/html')) {
+            return '/index.html'
+          }
+          return undefined
+        },
+      },
+      '/logout': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+        bypass(req) {
+          const accept = req.headers?.accept ?? ''
+          if (req.method === 'GET' && accept.includes('text/html')) {
+            return '/index.html'
+          }
+          return undefined
+        },
+      },
     },
   },
 })
