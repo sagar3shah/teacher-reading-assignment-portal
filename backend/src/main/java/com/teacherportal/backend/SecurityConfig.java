@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -39,10 +40,20 @@ public class SecurityConfig {
 	}
 
 	@Bean
+	WebSecurityCustomizer webSecurityCustomizer() {
+		return (web) -> web
+			.ignoring()
+			.requestMatchers("/h2-console", "/h2-console/**");
+	}
+
+	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		return http
 			.csrf(AbstractHttpConfigurer::disable)
 			.cors(Customizer.withDefaults())
+			.headers(headers -> headers
+				.frameOptions(frameOptions -> frameOptions.sameOrigin())
+			)
 			.authorizeHttpRequests(authorize -> authorize
 				.requestMatchers("/api/health").permitAll()
 				.anyRequest().authenticated()

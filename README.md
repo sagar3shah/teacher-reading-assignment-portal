@@ -17,6 +17,20 @@ cd backend
 ```
 Backend runs at: http://localhost:8080
 
+Demo logins (React login: http://localhost:5173/login)
+- Teacher: `teacher` / `teacher123`
+- Student: `student1` / `student123`
+- Student: `student2` / `student123`
+
+After login you land on the internal dashboard: http://localhost:5173/dashboard
+
+Local DB uses file-based H2 (persistent) stored under `backend/data/`.
+
+Optional visual viewer (H2 Console): http://localhost:8080/h2-console
+- JDBC URL (should match `spring.datasource.url`): `jdbc:h2:file:./data/teacher_portal;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH;AUTO_SERVER=TRUE;AUTO_SERVER_PORT=9092`
+- User: `sa`
+- Password: *(blank by default)*
+
 **Terminal 2 — Frontend (React + Vite)**
 ```powershell
 cd frontend
@@ -36,7 +50,9 @@ Frontend runs at: http://localhost:5173
         - Went with React.js/Java Spring Boot because if we need to make more features and it becomes an actual project, we don't need to rewrite the backend code, java spring boot is more scalable, more realistic production type architecture
         - Considered next.js full stack as it's slightly faster to make a prototype as both front end and backend code lives in same app
     - Database: H2 vs Postgres vs MongoDB vs SQLite
-        - 
+        - H2, lightweight, no docker setup needed, file based persistance
+    - Public deployment: Render
+
 
 
 
