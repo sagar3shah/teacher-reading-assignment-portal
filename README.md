@@ -17,13 +17,6 @@ cd backend
 ```
 Backend runs at: http://localhost:8080
 
-Demo logins (React login: http://localhost:5173/login)
-- Teacher: `teacher` / `teacher123`
-- Student: `student1` / `student123`
-- Student: `student2` / `student123`
-
-After login you land on the internal dashboard: http://localhost:5173/dashboard
-
 Local DB uses file-based H2 (persistent) stored under `backend/data/`.
 
 Optional visual viewer (H2 Console): http://localhost:8080/h2-console

@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -20,6 +21,8 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -83,6 +86,8 @@ public class SecurityConfig {
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		SavedRequestAwareAuthenticationSuccessHandler nonXhrSuccessHandler = new SavedRequestAwareAuthenticationSuccessHandler();
 		SimpleUrlAuthenticationFailureHandler nonXhrFailureHandler = new SimpleUrlAuthenticationFailureHandler("/login?error");
+		RequestMatcher apiRequestMatcher = request -> request.getRequestURI() != null
+			&& request.getRequestURI().startsWith("/api/");
 
 		return http
 			.csrf(AbstractHttpConfigurer::disable)
@@ -90,8 +95,25 @@ public class SecurityConfig {
 			.headers(headers -> headers
 				.frameOptions(frameOptions -> frameOptions.sameOrigin())
 			)
+			.exceptionHandling(exceptions -> exceptions
+				.defaultAuthenticationEntryPointFor(
+					new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
+					apiRequestMatcher
+				)
+				.accessDeniedHandler((request, response, accessDeniedException) -> {
+					if (request.getRequestURI() != null && request.getRequestURI().startsWith("/api/")) {
+						response.sendError(HttpStatus.FORBIDDEN.value());
+						return;
+					}
+					response.sendError(HttpStatus.FORBIDDEN.value());
+				})
+			)
 			.authorizeHttpRequests(authorize -> authorize
 				.requestMatchers("/api/health").permitAll()
+				.requestMatchers("/api/books/**").hasRole("TEACHER")
+				.requestMatchers("/api/assignments/**").hasRole("TEACHER")
+				.requestMatchers("/api/my/**").authenticated()
+				.requestMatchers("/api/**").authenticated()
 				.requestMatchers("/login", "/error").permitAll()
 				.anyRequest().authenticated()
 			)

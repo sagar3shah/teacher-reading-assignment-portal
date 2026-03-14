@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -14,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -31,10 +33,16 @@ public class Assignment {
 	@Column(name = "due_date", nullable = false)
 	private LocalDate dueDate;
 
+	@Column(name = "assigned_by")
+	private String assignedBy;
+
 	@ElementCollection
 	@CollectionTable(name = "assignment_students", joinColumns = @JoinColumn(name = "assignment_id"))
 	@Column(name = "student_username", nullable = false)
 	private List<String> studentUsernames = new ArrayList<>();
+
+	@OneToMany(mappedBy = "assignment", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<AssignmentProgress> progress = new ArrayList<>();
 
 	protected Assignment() {
 	}
@@ -67,11 +75,27 @@ public class Assignment {
 		this.dueDate = dueDate;
 	}
 
+	public String getAssignedBy() {
+		return assignedBy;
+	}
+
+	public void setAssignedBy(String assignedBy) {
+		this.assignedBy = assignedBy;
+	}
+
 	public List<String> getStudentUsernames() {
 		return studentUsernames;
 	}
 
 	public void setStudentUsernames(List<String> studentUsernames) {
 		this.studentUsernames = studentUsernames == null ? new ArrayList<>() : new ArrayList<>(studentUsernames);
+	}
+
+	public List<AssignmentProgress> getProgress() {
+		return progress;
+	}
+
+	public void setProgress(List<AssignmentProgress> progress) {
+		this.progress = progress == null ? new ArrayList<>() : progress;
 	}
 }
