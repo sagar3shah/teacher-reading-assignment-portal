@@ -5,16 +5,22 @@
   line-height: 1.5;
   font-weight: 400;
 
-  --page-bg: #fff4cc;
+  --page-bg: #f3f4f6;
   --surface: #ffffff;
-  --text: #1f2937;
-  --muted: #4b5563;
-  --border: rgba(17, 24, 39, 0.12);
-  --shadow: 0 18px 40px rgba(17, 24, 39, 0.14);
-  --shadow-soft: 0 10px 22px rgba(17, 24, 39, 0.10);
-  --accent: #f2b705;
-  --accent-strong: #d99600;
-  --focus: rgba(242, 183, 5, 0.35);
+  --text: #0f172a;
+  --muted: #475569;
+  --border: rgba(15, 23, 42, 0.12);
+  --shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+  --shadow-soft: 0 10px 22px rgba(15, 23, 42, 0.08);
+  --accent: #111827;
+  --accent-strong: #0b1220;
+  --focus: rgba(15, 23, 42, 0.18);
+
+  --sidebar-bg: #0b1220;
+  --sidebar-surface: rgba(255, 255, 255, 0.06);
+  --sidebar-border: rgba(255, 255, 255, 0.10);
+  --sidebar-text: rgba(255, 255, 255, 0.92);
+  --sidebar-muted: rgba(255, 255, 255, 0.62);
 
   color: var(--text);
   background: var(--page-bg);
@@ -32,6 +38,7 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  background: var(--page-bg);
 }
 
 button,
@@ -42,5 +49,5 @@ textarea {
 }
 
 ::selection {
-  background: rgba(242, 183, 5, 0.35);
+  background: var(--focus);
 }
