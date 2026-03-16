@@ -1,6 +1,8 @@
 # teacher-reading-assignment-portal
 A web portal for teachers and students to use to assign reading and track assignment status
 
+Public Link - https://teacher-reading-assignment-portal-1.onrender.com
+
 ## Setup Instructions
 
 ### Prerequisites
@@ -44,6 +46,7 @@ docker compose down -v
 - If the app doesn’t open, make sure nothing else is using port `5173`.
 
 ## Current Implemenetation
+- Java 21, Spring Boot + Spring Security, React.js, H2 Database, Docker
 
 ## Architectural Decisions/Tradeoffs
 - Tech stack:
