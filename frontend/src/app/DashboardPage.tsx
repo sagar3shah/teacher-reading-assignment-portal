@@ -1,6 +1,7 @@
 import './App.css'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { apiUrl } from './apiUrl'
 
 type MeResponse = {
   username: string
@@ -96,7 +97,7 @@ function DashboardPage() {
 
     async function loadMe() {
       try {
-        const response = await fetch('/api/me', {
+        const response = await fetch(apiUrl('/api/me'), {
           method: 'GET',
           credentials: 'include',
           headers: {
@@ -138,7 +139,7 @@ function DashboardPage() {
 
     async function loadBooks() {
       try {
-        const response = await fetch('/api/books', {
+        const response = await fetch(apiUrl('/api/books'), {
           method: 'GET',
           credentials: 'include',
           signal: controller.signal,
@@ -196,7 +197,7 @@ function DashboardPage() {
 
     async function loadBooks() {
       try {
-        const response = await fetch('/api/books', {
+        const response = await fetch(apiUrl('/api/books'), {
           method: 'GET',
           credentials: 'include',
           signal: controller.signal,
@@ -254,7 +255,7 @@ function DashboardPage() {
 
     async function loadAssignments() {
       try {
-        const response = await fetch('/api/assignments', {
+        const response = await fetch(apiUrl('/api/assignments'), {
           method: 'GET',
           credentials: 'include',
           signal: controller.signal,
@@ -350,7 +351,7 @@ function DashboardPage() {
 
     async function loadMyAssignments() {
       try {
-        const response = await fetch('/api/my/assignments', {
+        const response = await fetch(apiUrl('/api/my/assignments'), {
           method: 'GET',
           credentials: 'include',
           signal: controller.signal,
@@ -419,7 +420,7 @@ function DashboardPage() {
     setMySaveNotice(null)
     setMySaveErrorById((prev) => ({ ...prev, [assignmentId]: null }))
     try {
-      const response = await fetch(`/api/my/assignments/${assignmentId}`, {
+      const response = await fetch(apiUrl(`/api/my/assignments/${assignmentId}`), {
         method: 'PATCH',
         credentials: 'include',
         headers: {
@@ -489,7 +490,7 @@ function DashboardPage() {
 
     setCreatingAssignment(true)
     try {
-      const response = await fetch('/api/assignments', {
+      const response = await fetch(apiUrl('/api/assignments'), {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -534,7 +535,7 @@ function DashboardPage() {
     if (loggingOut) return
     setLoggingOut(true)
     try {
-      await fetch('/logout', {
+      await fetch(apiUrl('/logout'), {
         method: 'POST',
         credentials: 'include',
         headers: {

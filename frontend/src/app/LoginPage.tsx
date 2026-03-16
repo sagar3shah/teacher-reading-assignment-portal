@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './App.css'
+import { apiUrl } from './apiUrl'
 
 function LoginPage() {
 	const navigate = useNavigate()
@@ -27,7 +28,7 @@ function LoginPage() {
 				password,
 			})
 
-			const response = await fetch('/login', {
+			const response = await fetch(apiUrl('/login'), {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/x-www-form-urlencoded',

@@ -109,6 +109,7 @@ public class SecurityConfig {
 				})
 			)
 			.authorizeHttpRequests(authorize -> authorize
+				.requestMatchers("/").permitAll()
 				.requestMatchers("/api/health").permitAll()
 				.requestMatchers("/api/books/**").hasRole("TEACHER")
 				.requestMatchers("/api/assignments/**").hasRole("TEACHER")
