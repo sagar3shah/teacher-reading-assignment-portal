@@ -4,37 +4,45 @@ A web portal for teachers and students to use to assign reading and track assign
 ## Setup Instructions
 
 ### Prerequisites
-- Java 21 (JDK)
-- Node.js 20.19+ or 22.12+ (this repo was developed with Node 24.x)
+- Docker Desktop
 
-### Run locally
-Open two terminals from the repo root.
+### Demo accounts
+Login at: http://localhost:5173/login
 
-**Terminal 1 — Backend (Spring Boot)**
+- Teacher: `teacher` / `teacher123`
+- Student 1: `student1` / `student123`
+- Student 2: `student2` / `student123`
+
+### Run (Docker)
+From the repo root:
+
 ```powershell
-cd backend
-./mvnw spring-boot:run
+docker compose up --build
 ```
-Backend runs at: http://localhost:8080
 
-Local DB uses file-based H2 (persistent) stored under `backend/data/`.
+Open:
+- App: http://localhost:5173
+- Login page: http://localhost:5173/login
 
-Optional visual viewer (H2 Console): http://localhost:8080/h2-console
-- JDBC URL (should match `spring.datasource.url`): `jdbc:h2:file:./data/teacher_portal;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH;AUTO_SERVER=TRUE;AUTO_SERVER_PORT=9092`
-- User: `sa`
-- Password: *(blank by default)*
+Notes:
+- You do NOT need Java or Node installed locally (the Docker images include runtimes).
+- The backend uses an H2 database stored in a Docker volume, so data persists across restarts.
+- Optional DB viewer (H2 Console): http://localhost:5173/h2-console
 
-**Terminal 2 — Frontend (React + Vite)**
+### Stop
 ```powershell
-cd frontend
-npm install
-npm run dev
+docker compose down
 ```
-Frontend runs at: http://localhost:5173
 
-### Quick sanity check
-- Backend health endpoint: http://localhost:8080/api/health
-- The frontend calls the backend via a Vite dev proxy (`/api/*` -> `http://localhost:8080`).
+To also delete the persisted database volume:
+```powershell
+docker compose down -v
+```
+
+### Troubleshooting
+- If you see “orphan containers”, re-run with `docker compose up --build --remove-orphans`.
+- If the app doesn’t open, make sure nothing else is using port `5173`.
+
 ## Current Implemenetation
 
 ## Architectural Decisions/Tradeoffs
@@ -50,3 +58,9 @@ Frontend runs at: http://localhost:5173
 
 
 ## Future Improvements
+- UI:
+    - Using things like shadcn, 21st.dev. I did not use it and I noticed that AI development was significantly worse at making modern designs when not using a UI library dependency. I'd also refactor the code so it's manageable with reusable components and better architecture.
+- Business:
+    - I would personally think that a reading assignment portal is a feature within a school management portal such as Edline or Blackboard. The home page for students would be for more "urgent" notifications like upcoming assignments, upcoming tests, alerts if you forgot to update assignment progress on the student portal. On the teacher home portal I would add alerts like if specific students haven't updated their status in a while, upcoming assignments, todo's for creating assignments, etc.
+- Backend:
+    If this progresses, change the DB to postgres, use cloud services such as AWS. Refactor services into proper spring boot layered architecture. 
