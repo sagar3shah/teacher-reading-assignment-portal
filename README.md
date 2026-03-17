@@ -2,6 +2,8 @@
 A web portal for teachers and students to use to assign reading and track assignment status
 
 Public Link - https://teacher-reading-assignment-portal-1.onrender.com
+(Please click the backend link as well to start up service. 
+https://teacher-reading-assignment-portal.onrender.com/)
 
 ## Setup Instructions
 
@@ -66,4 +68,4 @@ docker compose down -v
 - Business:
     - I would personally think that a reading assignment portal is a feature within a school management portal such as Edline or Blackboard. The home page for students would be for more "urgent" notifications like upcoming assignments, upcoming tests, alerts if you forgot to update assignment progress on the student portal. On the teacher home portal I would add alerts like if specific students haven't updated their status in a while, upcoming assignments, todo's for creating assignments, etc.
 - Backend:
-    If this progresses, change the DB to postgres, use cloud services such as AWS. Refactor services into proper spring boot layered architecture. 
+    If this progresses, change the DB to postgres, use cloud services such as AWS. Refactor services into proper spring boot layered architecture.
