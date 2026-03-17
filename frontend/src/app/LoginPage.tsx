@@ -43,6 +43,26 @@ function LoginPage() {
 				return
 			}
 
+			// Double-check that the session cookie was set and will be sent back.
+			// If cookies are blocked/misconfigured in a deployed environment, we can
+			// otherwise look like we "logged in then immediately logged out".
+			const meResponse = await fetch(apiUrl('/api/me'), {
+				method: 'GET',
+				credentials: 'include',
+				headers: {
+					'X-Requested-With': 'XMLHttpRequest',
+				},
+			})
+
+			if (meResponse.status === 401) {
+				setSubmitError(
+					'Sign-in succeeded, but your session could not be established (cookie not stored/sent). ' +
+					'On Render, confirm backend env vars: SESSION_COOKIE_SAMESITE=None and SESSION_COOKIE_SECURE=true, ' +
+					'and that CORS_ALLOWED_ORIGINS matches the frontend URL exactly.'
+				)
+				return
+			}
+
 			navigate('/dashboard/', { replace: true })
 		} catch {
 			setSubmitError('Unable to sign in right now. Please try again.')
